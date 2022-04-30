@@ -5,7 +5,7 @@ import math
 n = int(input())
 
 dico = {}
-equivalent = ""
+equivalent = 0.0
 
 for i in range(n):
     inputs = input().split()
@@ -13,15 +13,36 @@ for i in range(n):
 
 circuit = input()
 
-print(str(circuit.count('(')) + ' additions', file=sys.stderr, flush=True)
-print(str(circuit.count('[')) + ' divisions', file=sys.stderr, flush=True)
+print(dico, file=sys.stderr, flush=True)
+print(circuit, file=sys.stderr, flush=True)
+
+addition = 0
+division = 0
+last_term = ""
+
 
 for i in circuit.split():
-    if i in "([":
-        equivalent += i + ' '
-    elif i in "])":
-        equivalent += i + ' '
-    else :
-        equivalent += str(dico[i]) + ' '
+    print("addition : " + str(addition), file=sys.stderr, flush=True)
+    print("division : " + str(division), file=sys.stderr, flush=True)
+    if i == '(':
+        addition += 1
+        last_term = "("
+    if i == '[':
+        division += 1
+        last_term = "["
+    if i == ']':
+        equivalent = 1/equivalent
+        division -= 1
+    if i == ')':
+        addition -= 1
+    if i not in "()[]":
+        if addition > 0 and last_term == '(':
+            equivalent += dico[i]
+        if division > 0 and last_term == '[':
+            equivalent += 1/dico[i]
+    
+    print("equivalent : " + str(equivalent), file=sys.stderr, flush=True)
+    print("", file=sys.stderr, flush=True)
 
-print(equivalent)
+
+print(str(round(equivalent,1)))
