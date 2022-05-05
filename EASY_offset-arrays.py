@@ -21,7 +21,7 @@ for i in range(n):
     print(values, file=sys.stderr, flush=True)
 
     k = 0
-    for j in range(int(first_index),int(last_index),1):
+    for j in range(int(first_index),int(last_index)+1,1):
         tmp_key = array_identifier + '[' + str(j) + ']'
         d[tmp_key]=values[k]
         k += 1
@@ -32,7 +32,13 @@ x = input()
 
 print(x, file=sys.stderr, flush=True)
 
-if(x in d):
-    print(d[x])
-else:
-    print('7')
+while x.isdigit() == False:
+    for c in d.keys():
+        if c in x:
+            print('In the if : ' + c, file=sys.stderr, flush=True)
+            #on remplace la clé par sa valeur
+            x = x.replace(c,d[c])
+            print('X replaced : ' + x, file=sys.stderr, flush=True)
+            break
+
+print(x)
