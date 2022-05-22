@@ -1,6 +1,5 @@
 # https://www.codingame.com/ide/puzzle/calculator
 import sys
-import math
 terme1=""
 terme2=""
 signe=""
@@ -8,8 +7,8 @@ answer=""
 
 def calculate(t1,t2,s):
     res = 0
-    t1 = int(t1)
-    t2 = int(t2)
+    t1 = float(t1)
+    t2 = float(t2)
     if s=='+': res=t1+t2
     if s=='-': res=t1-t2
     if s=='/': res=t1/t2
@@ -42,4 +41,9 @@ for i in range(int(input())):
         terme1 = answer
     else:
         answer = calculate(terme1,terme2,signe)
-    print(answer)
+    
+    comp = str(round(float(answer),3))
+    if comp[-1] == "0" and comp[-2] == ".":
+        print(int(float(comp)))
+    else:
+        print(comp)
