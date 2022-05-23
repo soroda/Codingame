@@ -4,11 +4,15 @@ terme1=""
 terme2=""
 signe=""
 answer=""
+egal=False
 
 def calculate(t1,t2,s):
     res = 0
-    t1 = float(t1)
-    t2 = float(t2)
+    try:
+        t1 = float(t1)
+        t2 = float(t2)
+    except ValueError:
+        print("t1",t1,"t2",t2, file=sys.stderr,flush=True)
     if s=='+': res=t1+t2
     if s=='-': res=t1-t2
     if s=='/': res=t1/t2
@@ -23,24 +27,33 @@ for i in range(int(input())):
             terme1+= key
             answer = terme1
         elif signe!="" and terme1 !="":
-            terme2+= key
-            answer = terme2
+            if egal:
+                egal=False
+                terme1+= key
+                answer = terme1
+                terme2 = ""
+                signe = ""
+            else:
+                terme2+= key
+                answer = terme2
     elif key=='AC':
         terme1=""
         terme2=""
         signe=""
         answer="0"
+        egal=False
     elif key == '=':
+        if egal:
+            terme1=answer
         answer = calculate(terme1,terme2,signe)
         terme1 = ""
+        egal=True
     elif key in "+/-x":
         if terme2 != "":
             answer = calculate(terme1,terme2,signe)
             terme2 = ""
         signe=key
         terme1 = answer
-    else:
-        answer = calculate(terme1,terme2,signe)
     
     comp = str(round(float(answer),3))
     if comp[-1] == "0" and comp[-2] == ".":
