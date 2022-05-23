@@ -49,9 +49,12 @@ for i in range(int(input())):
         terme1 = ""
         egal=True
     elif key in "+/-x":
-        if terme2 != "":
+        if terme2 != "" and not egal:
             answer = calculate(terme1,terme2,signe)
             terme2 = ""
+        elif terme2 !="" and egal:
+            terme2= ""
+            egal=False
         signe=key
         terme1 = answer
     
