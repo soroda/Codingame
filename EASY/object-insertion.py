@@ -1,39 +1,49 @@
 # https://www.codingame.com/ide/puzzle/object-insertion
 import sys
+import math
 
+nombre_solution=0
+object_line = ""
 a, b = [int(i) for i in input().split()]
 
-print("a",a,"b",b, file=sys.stderr, flush=True)
-
-objet = []
-grid = []
-solution = []
-nombre_solution=0
-
 for i in range(a):
-    objet.append(list(input()))
-print("objet",objet, file=sys.stderr, flush=True)
+    object_line += input()
+
+print("object_line",object_line,file=sys.stderr, flush=True)
 
 c, d = [int(i) for i in input().split()]
-print("c",c,"d",d, file=sys.stderr, flush=True)
+
+grid = []
+solution = {}
 
 for i in range(c):
-    tmp = list(input())
-    grid.append(tmp)
-    solution.append(tmp)
+    grid.append(input())
 
-print("grid",grid, file=sys.stderr, flush=True)
-# premiere etape calculer le nombre de possibilié
+i, j = (0,0)
+pattern = ""
+while i < c:
+    while j < d:
+        if grid[i][j] == '.':
+            # constitution du pattern de comparaison
+            distance_y=c-i # distance qui separe du bas
+            distance_x=d-j # distance qui sépare du bord droit
+            if distance_y >= a and distance_x >= b:
+                for k in range(i,i+a,1):
+                    for l in range(j,j+b,1):
+                        if grid[k][l] == '#':
+                            pattern += '.'
+                        if grid[k][l] =='.':
+                            pattern += '*'
+                print("pattern",pattern,file=sys.stderr, flush=True)
+                if pattern == object_line:
+                    nombre_solution += 1
+                    solution["x"] = j
+                    solution["y"] = i
+                
+                pattern=""
+        j+= 1
+    i +=1
 
-# mémoriser la premiere possibilité. 
-
-# le nombre de possibilité est supérieur à 1 alors afficher le nombre
-# Si nombre de possibilité est égal à 1 alors afficher la grille
-# Si aucune solution ne rien afficher
-
-if nombre_solution == 1 :
-    print(nombre_solution)
-    for i in range(c):
-        print("".join(solution[i]))
-else:
-    print(nombre_solution)
+print(nombre_solution)
+if nombre_solution == 1:
+    print("oups")
