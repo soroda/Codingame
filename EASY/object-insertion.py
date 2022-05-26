@@ -1,49 +1,54 @@
 # https://www.codingame.com/ide/puzzle/object-insertion
-import sys
-import math
 
-nombre_solution=0
-object_line = ""
+objet = []
+
+answer = 0
+
 a, b = [int(i) for i in input().split()]
 
 for i in range(a):
-    object_line += input()
-
-print("object_line",object_line,file=sys.stderr, flush=True)
+    objet.append(list(input()))
 
 c, d = [int(i) for i in input().split()]
 
-grid = []
-solution = {}
+grid, work, solution = [],[],[]
 
 for i in range(c):
     grid.append(input())
+    work.append(list(grid[i]))
 
-i, j = (0,0)
-pattern = ""
-while i < c:
-    while j < d:
-        if grid[i][j] == '.':
-            # constitution du pattern de comparaison
-            distance_y=c-i # distance qui separe du bas
-            distance_x=d-j # distance qui sépare du bord droit
-            if distance_y >= a and distance_x >= b:
-                for k in range(i,i+a,1):
-                    for l in range(j,j+b,1):
-                        if grid[k][l] == '#':
-                            pattern += '.'
-                        if grid[k][l] =='.':
-                            pattern += '*'
-                print("pattern",pattern,file=sys.stderr, flush=True)
-                if pattern == object_line:
-                    nombre_solution += 1
-                    solution["x"] = j
-                    solution["y"] = i
-                
-                pattern=""
-        j+= 1
-    i +=1
+def reinit_work():
+    for i in range(c):
+        work[i] = list(grid[i])
 
-print(nombre_solution)
-if nombre_solution == 1:
-    print("oups")
+for i in range(c):
+    for j in range(d):
+        estOk = True
+        iTmp = i
+        reinit_work()
+        for ai in range(a):
+            if not estOk: break
+            jTmp = j
+            for bi in range(b):
+                if iTmp < c and jTmp < d:
+                    if grid[iTmp][jTmp] == "#" and objet[ai][bi] == "*":
+                            reinit_work()
+                            estOk=False
+                            break
+                    if grid[iTmp][jTmp] == "." and objet[ai][bi] == "*":
+                        work[iTmp][jTmp] = '*'
+                    jTmp += 1
+                else:
+                    reinit_work()
+                    estOk=False
+                    break
+            iTmp +=1
+        if estOk:
+            answer += 1
+            if len(solution)==0 :
+                solution = list(work)
+
+print(answer)
+if answer == 1:
+    for i in solution:
+        print("".join(i))
