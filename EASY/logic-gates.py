@@ -8,7 +8,7 @@ signals = {}
 # sig to bit
 bit = lambda x: x.replace('_','0').replace('-','1')
 # bits to signal
-sig = lambda x: bin(x).replace('0b','').replace('0','_').replace('1','-')
+sig = lambda x: x.replace('0','_').replace('1','-')
 
 for i in range(n):
     n, s = input().split()
@@ -18,23 +18,29 @@ for i in range(m):
     output, _type, s1, s2 = input().split()
     t1 = bit(signals[s1])
     t2 = bit(signals[s2])
-    answer = 0
+    answer = ""
     if _type=='AND':
-        answer = int('0b'+t1,2) & int('0b'+t2,2)
+        for index in range(len(t1)):
+            answer += str(int(t1[index]) & int(t2[index]))
     
     if _type=='OR':
-        answer = int('0b'+t1,2) | int('0b'+t2,2)
+        for index in range(len(t1)):
+            answer += str(int(t1[index]) | int(t2[index]))
 
     if _type=='XOR':
-        answer = int('0b'+t1,2) ^ int('0b'+t2,2)
+        for index in range(len(t1)):
+            answer += str(int(t1[index]) ^ int(t2[index]))
 
     if _type=='NAND':
-        answer = ~(int('0b'+t1,2) & int('0b'+t2,2))
+        for index in range(len(t1)):
+            answer = str(int(t1[index]) & int(t2[index]))
     
     if _type=='NOR':
-        answer = ~(int('0b'+t1,2) | int('0b'+t2,2))
+        for index in range(len(t1)):
+            answer = str((~int(t1[index]) | ~int(t2[index])))
 
     if _type=='NXOR':
-        answer = ~(int('0b'+t1,2) ^ int('0b'+t2,2))
+        for index in range(len(t1)):
+            answer = str(~(int(t1[index]) ^ int(t2[index])))
     
     print(output, sig(answer))
