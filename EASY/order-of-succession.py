@@ -22,25 +22,15 @@ for i in range(int(input())):
                 'gender':inputs[5]
             }
 
-lookat = [k for k in tree['-'].keys()]
-discovered = []
+processed = ['-']
 
-print("tree",tree, file=sys.stderr, flush=True)
-print("lookat",lookat, file=sys.stderr, flush=True)
-
-while lookat != []:
-    # parcourir les enfants du premier
-    for p in lookat:
-        if p not in discovered:
-            try:
-                for k in tree[p].keys():
-                    lookat.append(k)
-            except KeyError:
-                continue # la clé n'existe pas alors on continue
-            discovered.append(p)
-        print("lookat",lookat, file=sys.stderr, flush=True)
-        print("discovered",discovered, file=sys.stderr, flush=True)
-
-
-    del lookat[0]
-
+for k in tree:
+    try:
+        for s in tree[k]:
+            print(s)
+            processed.append(s)
+    except KeyError:
+        for y in tree[k].keys():
+            for x in tree[k][y]:
+                print(x)
+                processed.append(x)
