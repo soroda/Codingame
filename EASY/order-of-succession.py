@@ -1,27 +1,46 @@
 # https://www.codingame.com/ide/puzzle/order-of-succession
 import sys
-
-answer = "orDeroFsucceSsion"
-child = {} # child -> parent
-parents = {} # parent : [childs]
-people = {}
-
+tree = {}
 for i in range(int(input())):
     inputs = input().split()
-    print("inputs", inputs, file=sys.stderr, flush=True)
-    name = inputs[0]
-    parent = inputs[1]
-    birth = int(inputs[2])
-    death = inputs[3]
-    religion = inputs[4]
-    gender = inputs[5]
-
-    child[name] = parent
-    if name in parents.keys():
-        parents[parent].append(name)
+    if inputs[1] not in tree.keys():
+        # parent
+        tree[inputs[1]] = {
+            # child name
+            inputs[0]:{
+                'birth':inputs[2],
+                'death':inputs[3],
+                'religion':inputs[4],
+                'gender':inputs[5]
+            }
+        }
     else:
-        parents[parent] = [].append(name)
+        tree[inputs[1]][inputs[0]] = {
+                'birth':inputs[2],
+                'death':inputs[3],
+                'religion':inputs[4],
+                'gender':inputs[5]
+            }
 
-    people[name] = list(inputs)
+lookat = [k for k in tree['-'].keys()]
+discovered = []
 
-print(parents["-"])
+print("tree",tree, file=sys.stderr, flush=True)
+print("lookat",lookat, file=sys.stderr, flush=True)
+
+while lookat != []:
+    # parcourir les enfants du premier
+    for p in lookat:
+        if p not in discovered:
+            try:
+                for k in tree[p].keys():
+                    lookat.append(k)
+            except KeyError:
+                continue # la clé n'existe pas alors on continue
+            discovered.append(p)
+        print("lookat",lookat, file=sys.stderr, flush=True)
+        print("discovered",discovered, file=sys.stderr, flush=True)
+
+
+    del lookat[0]
+
