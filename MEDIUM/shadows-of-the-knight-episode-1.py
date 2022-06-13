@@ -1,12 +1,8 @@
 # https://www.codingame.com/ide/puzzle/shadows-of-the-knight-episode-1
-import sys
-
 w, h = [int(i) for i in input().split()]
 n = int(input())  # maximum number of turns before game over.
 x, y = [int(i) for i in input().split()]
-x0 = y0 = 0
-
-mem = ""
+x0, y0 = 0, 0
 
 def deplace(a, b):
     res = int((a+b)//2)
@@ -16,7 +12,6 @@ def deplace(a, b):
         res = b
     elif a == b:
         res = int(res//2)
-
     return res
 
 # game loop
