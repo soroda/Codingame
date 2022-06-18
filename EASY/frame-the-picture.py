@@ -11,7 +11,15 @@ reversedFramePattern = frame_pattern[::-1] # slicer
 
 lines = []
 for i in range(h):
-    lines.append(frame_pattern + (w * " ") + input() +  (w * " ") + reversedFramePattern)
+    pic = input()
+    if w == 1:
+        multi = w
+    else:
+        multi = (w-len(pic))//2
+    
+    if multi == 0: multi = 1
+    
+    lines.append(frame_pattern + (multi * " ") + pic +  (multi * " ") + reversedFramePattern)
 
 lineSize = max([len(x) for x in lines])
 
