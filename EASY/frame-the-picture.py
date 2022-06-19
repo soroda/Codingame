@@ -23,8 +23,17 @@ for i in range(h):
 
 lineSize = max([len(x) for x in lines])
 
-for char in frame_pattern:
-    banners.append(char * lineSize)
+index = 0
+while index < len(frame_pattern):
+    tmp = ""
+    if index > 0:
+        fill = frame_pattern[:index]
+        tmp = fill + frame_pattern[index] * (lineSize - (len(fill)*2)) + fill[::-1]
+    else:
+        tmp = frame_pattern[index] * lineSize
+    
+    banners.append(tmp)
+    index +=1
 
 between = frame_pattern + (lineSize - (2*len(frame_pattern))) * " " + reversedFramePattern
 
