@@ -15,7 +15,10 @@ for i in range(h):
     if w == 1:
         multi = w
     else:
+        print('len(pic)',len(pic),flush=True,file=sys.stderr)
+        print(pic,flush=True,file=sys.stderr)
         multi = (w-len(pic))//2
+        print('multi',multi,flush=True,file=sys.stderr)
     
     if multi == 0: multi = 1
     
@@ -23,6 +26,7 @@ for i in range(h):
 
 lineSize = max([len(x) for x in lines])
 
+# BANNER
 index = 0
 while index < len(frame_pattern):
     tmp = ""
@@ -35,17 +39,13 @@ while index < len(frame_pattern):
     banners.append(tmp)
     index +=1
 
-between = frame_pattern + (lineSize - (2*len(frame_pattern))) * " " + reversedFramePattern
+banners.append(frame_pattern + (lineSize - (2*len(frame_pattern))) * " " + reversedFramePattern)
 
 for b in banners:
     print(b)
 
-print(between)
-
 for l in lines:
     print(l)
-
-print(between)
 
 for b in banners[::-1]:
     print(b)
