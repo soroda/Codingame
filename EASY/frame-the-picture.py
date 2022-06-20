@@ -1,10 +1,6 @@
 # https://www.codingame.com/ide/puzzle/frame-the-picture
-import sys
-
 frame_pattern = input()  # the ASCII art pattern to use to frame the picture
-print("frame_pattern", frame_pattern, file=sys.stderr, flush=True)
 h, w = [int(i) for i in input().split()]
-print("h", h, "w", w, frame_pattern, file=sys.stderr, flush=True)
 
 banners = []
 reversedFramePattern = frame_pattern[::-1] # slicer
@@ -15,14 +11,14 @@ for i in range(h):
     if w == 1:
         multi = w
     else:
-        print('len(pic)',len(pic),flush=True,file=sys.stderr)
-        print(pic,flush=True,file=sys.stderr)
         multi = (w-len(pic))//2
-        print('multi',multi,flush=True,file=sys.stderr)
     
     if multi == 0: multi = 1
-    
-    lines.append(frame_pattern + (multi * " ") + pic +  (multi * " ") + reversedFramePattern)
+    tmp = frame_pattern + (multi * " ") + pic +  (multi * " ") + reversedFramePattern
+    if len(tmp) < w + 2 + (len(frame_pattern)*2):
+        lines.append(frame_pattern + " " + pic + (w-len(pic)) * " " + " " + reversedFramePattern)
+    else:
+        lines.append(frame_pattern + (multi * " ") + pic +  (multi * " ") + reversedFramePattern)
 
 lineSize = max([len(x) for x in lines])
 
