@@ -18,6 +18,7 @@ for i in range(rows):
 
 s, f, w = False, False, False
 selected = []
+toShow = []
 
 for t in sql_query:
     if t == "SELECT": 
@@ -25,6 +26,9 @@ for t in sql_query:
         continue
     if t == "FROM": 
         s = False
+        toShow.append(selected)
+        for a in table:
+            toShow.append([a[x] for x in selected])
         continue
     if t == "WHERE": 
         w = True
@@ -35,4 +39,6 @@ for t in sql_query:
             selected = [k for k in header.keys()]
         else:
             selected.append(t)
-    
+
+for a in toShow:
+    print(" ".join(a))
