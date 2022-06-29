@@ -1,44 +1,23 @@
 # https://www.codingame.com/ide/puzzle/parse-sql-queries
 import sys
+import numpy as np
 
-sql_query = input()
-
-print(sql_query, file=sys.stderr, flush=True)
+sql_query = input().split()
 
 rows = int(input())
 
 table = []
-header = {}
-
-for c,v in enumerate(input().split()):
-    header[v]=c
+table.append(input().split())
 
 for i in range(rows):
     table.append(input().split())
 
-s, f, w = False, False, False
-selected = []
-toShow = []
-
+query_select = False
+query_where = False
+# requete decoupee
 for t in sql_query:
-    if t == "SELECT": 
-        s = True
-        continue
-    if t == "FROM": 
-        s = False
-        toShow.append(selected)
-        for a in table:
-            toShow.append([a[x] for x in selected])
-        continue
-    if t == "WHERE": 
-        w = True
-        continue
-    
-    if s:
-        if t=='*':
-            selected = [k for k in header.keys()]
-        else:
-            selected.append(t)
+    print(t, file=sys.stderr, flush=True)
+    if t == 'SELECT':query_select=True
+    if t == 'FROM':query_select=False
+    if t == 'WHERE':query_where=True
 
-for a in toShow:
-    print(" ".join(a))
