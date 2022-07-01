@@ -16,9 +16,9 @@ query_from=False
 query_where = False
 selected_index=[]
 # requete decoupee
+column_names = []
 for t in sql_query:
     print(t, file=sys.stderr, flush=True)
-    tmp = []
     if t == 'SELECT':
         query_select=True
         continue
@@ -32,13 +32,35 @@ for t in sql_query:
         continue
 
     if query_select:
-        if t=='*': tmp = table[0]
-        tmp.append(t)
+        if t=='*': 
+            column_names = table[0]
+        else:
+            column_names.append(t.replace(',',''))
     
     if query_from:
         a = 0
-        for i in tmp:
+        print(column_names, file=sys.stderr, flush=True)
+        for i in column_names:
+            print('i->',i, file=sys.stderr, flush=True)
             while i != table[0][a]:
                 a+=1
             
             selected_index.append(a)
+
+    if query_where:
+        # where_indexes
+        # where_conditions
+        continue
+
+print(selected_index, file=sys.stderr, flush=True)
+print(table, file=sys.stderr, flush=True)
+
+# affichage resultat
+for line in table:
+    printed = []
+    j = 0
+    while j < len(line):
+        if j in selected_index:
+            printed.append(line[j])
+        j+= 1
+    print(" ".join(printed))
